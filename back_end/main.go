@@ -31,6 +31,7 @@ func main() {
 		User:     getEnv("DB_USER", "postgres"),
 		Password: getEnv("DB_PASSWORD", "1234"),
 		DBName:   getEnv("DB_NAME", "poker_planning"),
+		SSLMode:  getEnv("DB_SSLMODE", "disable"), // Use 'require' for Neon, 'disable' for local
 	}
 
 	if err := db.InitDB(dbConfig); err != nil {

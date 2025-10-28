@@ -17,13 +17,20 @@ type Config struct {
 	User     string
 	Password string
 	DBName   string
+	SSLMode  string // SSL mode for database connection
 }
 
 // InitDB initializes the database connection
 func InitDB(config Config) error {
+	// Default to 'require' for production databases (like Neon)
+	sslMode := config.SSLMode
+	if sslMode == "" {
+		sslMode = "disable" // Default for local development
+	}
+
 	connStr := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		config.Host, config.Port, config.User, config.Password, config.DBName,
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		config.Host, config.Port, config.User, config.Password, config.DBName, sslMode,
 	)
 
 	var err error
