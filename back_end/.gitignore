@@ -1,0 +1,27 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# Go workspace file
+go.work
+
+# Build artifacts
+main
+poker-planning-api
+poker-planning-api.exe
+
+# Fly.io
+.fly/

@@ -1,0 +1,48 @@
+# Render.com Blueprint Configuration
+# This file configures automatic deployment to Render.com
+
+databases:
+  # PostgreSQL Database
+  - name: poker-planning-db
+    databaseName: poker_planning
+    user: poker_planning_user
+    plan: free
+    region: oregon
+
+services:
+
+  # Backend Web Service
+  - type: web
+    name: poker-planning-api
+    env: docker
+    region: oregon
+    plan: free
+    branch: main
+    dockerfilePath: ./back_end/Dockerfile
+    dockerContext: ./back_end
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: DB_HOST
+        fromDatabase:
+          name: poker-planning-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: poker-planning-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: poker-planning-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: poker-planning-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: poker-planning-db
+          property: password
+      - key: ALLOWED_ORIGINS
+        value: https://your-app.vercel.app,http://localhost:3000
+    healthCheckPath: /api/sessions

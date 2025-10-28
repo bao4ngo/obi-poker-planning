@@ -1,0 +1,10 @@
+*.exe
+*.test
+*.out
+.git
+.gitignore
+README.md
+setup_db.ps1
+setup_db.sh
+poker-planning-api.exe
+cmd/
