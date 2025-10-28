@@ -29,8 +29,8 @@ func InitDB(config Config) error {
 	}
 
 	connStr := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
-		config.Host, config.Port, config.User, config.Password, config.DBName, sslMode,
+		"postgresql://%s:%s@%s:%d/%s?sslmode=%s",
+		config.User, config.Password, config.Host, config.Port, config.DBName, sslMode,
 	)
 
 	var err error
