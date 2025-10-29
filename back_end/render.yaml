@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: poker-planning-api
+    runtime: docker
+    region: singapore
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: DB_HOST
+        value: ep-calm-voice-a1pxz353-pooler.ap-southeast-1.aws.neon.tech
+      - key: DB_PORT
+        value: 5432
+      - key: DB_USER
+        value: neondb_owner
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: neondb
+      - key: DB_SSLMODE
+        value: require
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: PORT
+        value: 8080
