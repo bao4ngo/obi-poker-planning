@@ -34,12 +34,27 @@ func main() {
 		SSLMode:  getEnv("DB_SSLMODE", "disable"), // Use 'require' for Neon, 'disable' for local
 	}
 
+	// Try to connect to database, but don't fail if it doesn't work immediately
 	if err := db.InitDB(dbConfig); err != nil {
-		log.Fatalf("Failed to initialize database: %v", err)
+		log.Printf("Warning: Failed to initialize database: %v", err)
+		log.Println("Server will start anyway. Database connection will be retried on first request.")
+	} else {
+		log.Println("Successfully connected to database")
+		defer db.CloseDB()
 	}
-	defer db.CloseDB()
 
 	router := mux.NewRouter()
+
+	// Health check endpoint for Cloud Run
+	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	}).Methods("GET")
+
+	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Healthy"))
+	}).Methods("GET")
 
 	// API routes
 	router.HandleFunc("/api/sessions", handlers.CreateSession).Methods("POST")
